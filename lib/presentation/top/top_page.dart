@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, lines_longer_than_80_chars
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kr_app/presentation/bankbook/bankbook_page.dart';
 import 'package:kr_app/presentation/members/members_page.dart';
@@ -23,6 +22,8 @@ class TopPage extends StatelessWidget {
         create: (_) => TopModel(),
         child: Consumer<TopModel>(
           builder: (context, model, child) {
+            /// Low もっとお洒落なものにできる
+            /// ConvexAppBarってやつ！
             final tabItems = [
               const BottomNavigationBarItem(
                 backgroundColor: Colors.pink,
