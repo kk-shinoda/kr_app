@@ -94,7 +94,6 @@ class SubmissionPage extends StatelessWidget {
                                 visible: model.canComment,
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 12),
-                                  initialValue: 'おちんちん',
                                   maxLines: 4,
                                   maxLength: 50,
                                   decoration: InputDecoration(
