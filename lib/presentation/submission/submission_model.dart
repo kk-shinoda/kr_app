@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,10 @@ class SubmissionModel with ChangeNotifier {
       _selectedDate = selected.toString();
       notifyListeners();
     }
+  }
+
+  void printID() {
+    print(FirebaseAuth.instance.currentUser!.uid);
   }
 
   void toggleComment() {
