@@ -106,14 +106,10 @@ class SubmissionPage extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'コメント',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
-                                          SizedBox(
-                                            width: 120,
-                                          ),
+                                          Text('コメント',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                          SizedBox(width: 120),
                                           model.canComment
                                               ? Icon(Icons.expand_less,
                                                   color: Colors.black)

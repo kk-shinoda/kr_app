@@ -21,6 +21,7 @@ class ProfileSettingModel extends ChangeNotifier {
   int sexIndex = 0;
   int prefectureIndex = 0;
   int areaIndex = 0;
+  bool isCommentPublic = true;
 
   bool isEdittingIntroduction = false;
 
@@ -85,7 +86,8 @@ class ProfileSettingModel extends ChangeNotifier {
         'prefecture': prefecture,
         'area': area,
         'introduction': introduction,
-        'latestPost': Timestamp.now()
+        'latestPost': Timestamp.now(),
+        'isCommentPublic': isCommentPublic
       },
     );
   }

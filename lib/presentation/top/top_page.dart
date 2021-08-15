@@ -26,31 +26,32 @@ class TopPage extends StatelessWidget {
             /// ConvexAppBarってやつ！
             final tabItems = [
               const BottomNavigationBarItem(
-                backgroundColor: Colors.pink,
-                icon: Icon(Icons.face),
-                label: '',
+                backgroundColor: Colors.lightGreen,
+                icon: Icon(Icons.create_outlined),
+                label: '投稿',
               ),
               const BottomNavigationBarItem(
-                backgroundColor: Colors.blue,
-                icon: Icon(Icons.fastfood),
-                label: '',
+                backgroundColor: Colors.lightGreen,
+                icon: Icon(Icons.receipt_outlined),
+                label: '通帳',
               ),
               const BottomNavigationBarItem(
-                backgroundColor: Colors.yellow,
-                icon: Icon(Icons.fastfood),
-                label: '',
+                backgroundColor: Colors.lightGreen,
+                icon: Icon(Icons.groups_outlined),
+                label: '仲間',
               ),
               const BottomNavigationBarItem(
-                backgroundColor: Colors.green,
-                icon: Icon(Icons.fastfood),
-                label: '',
+                backgroundColor: Colors.lightGreen,
+                icon: Icon(Icons.person_outline),
+                label: 'マイページ',
               ),
             ];
 
             return Scaffold(
-              body: _pageList[model.currentIndex],
+              body:
+                  IndexedStack(index: model.currentIndex, children: _pageList),
               bottomNavigationBar: BottomNavigationBar(
-                selectedItemColor: Colors.redAccent,
+                selectedItemColor: Colors.red.shade300,
                 currentIndex: model.currentIndex,
                 onTap: (index) {
                   model.setCurrentIndex(index);

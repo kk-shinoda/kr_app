@@ -14,6 +14,7 @@ class SubmissionModel with ChangeNotifier {
   String? postDate;
   String comment = '';
   String userId = '';
+  String type = "キエーロ";
 
   DocumentSnapshot? member;
 
@@ -77,7 +78,8 @@ class SubmissionModel with ChangeNotifier {
         'amount': amount,
         'prefecture': member!['prefecture'],
         'area': member!['area'],
-        'post_date': postDate
+        'post_date': postDate,
+        'type': type
       },
     );
 
@@ -88,7 +90,12 @@ class SubmissionModel with ChangeNotifier {
         .doc(postYear)
         .collection(postMonth)
         .add(
-      {'amount': amount, 'post_date': postDate, 'comment': comment},
+      {
+        'amount': amount,
+        'post_date': postDate,
+        'comment': comment,
+        'type': type
+      },
     );
     amount = 0;
     amountController.clear();
