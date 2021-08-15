@@ -35,7 +35,7 @@ class SubmissionPage extends StatelessWidget {
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 700),
                       width: 300,
-                      height: model.canComment ? 330 : 260,
+                      height: model.canComment ? 340 : 260,
                       margin: EdgeInsets.all(36.0),
                       decoration: BoxDecoration(
                           color: Colors.deepOrange.shade200,
@@ -47,10 +47,11 @@ class SubmissionPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               SizedBox(height: 15),
-                              SizedBox(
+                              Container(
                                 width: 200,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text('投入量'),
                                     SizedBox(width: 50),
@@ -78,10 +79,11 @@ class SubmissionPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: 200,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text('日付'),
                                     const SizedBox(width: 60),
@@ -102,32 +104,35 @@ class SubmissionPage extends StatelessWidget {
                                 children: [
                                   TextButton(
                                       onPressed: () => model.toggleComment(),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text('コメント',
-                                              style: TextStyle(
-                                                  color: Colors.black)),
-                                          SizedBox(width: 120),
-                                          model.canComment
-                                              ? Icon(Icons.expand_less,
-                                                  color: Colors.black)
-                                              : Icon(Icons.expand_more,
-                                                  color: Colors.black)
-                                        ],
+                                      child: Container(
+                                        width: 200,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('コメント',
+                                                style: TextStyle(
+                                                    color: Colors.black)),
+                                            SizedBox(width: 120),
+                                            model.canComment
+                                                ? Icon(Icons.expand_less,
+                                                    color: Colors.black)
+                                                : Icon(Icons.expand_more,
+                                                    color: Colors.black)
+                                          ],
+                                        ),
                                       )),
                                   Visibility(
                                     visible: model.canComment,
                                     child: TextFormField(
                                       controller: model.commentController,
                                       textInputAction: TextInputAction.done,
-                                      style: TextStyle(fontSize: 12),
+                                      style: TextStyle(fontSize: 16),
                                       maxLines: 4,
-                                      maxLength: 50,
+                                      maxLength: 45,
                                       decoration: InputDecoration(
                                           contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 44.0),
+                                              horizontal: 36.0),
                                           border: InputBorder.none),
                                       onChanged: (text) {
                                         model.comment = text;
@@ -135,7 +140,9 @@ class SubmissionPage extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 20),
+                                    margin: model.canComment
+                                        ? null
+                                        : EdgeInsets.only(top: 20),
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.brown),

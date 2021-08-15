@@ -14,6 +14,8 @@ class SubmissionModel with ChangeNotifier {
   String? postDate;
   String comment = '';
   String userId = '';
+
+  /// 他の処理方法も追加の可能性
   String type = "キエーロ";
 
   DocumentSnapshot? member;
@@ -35,7 +37,6 @@ class SubmissionModel with ChangeNotifier {
   Future<void> setSelectDate(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
       context: context,
-      // Low initialDateの設定
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2025),
@@ -47,25 +48,18 @@ class SubmissionModel with ChangeNotifier {
     }
   }
 
-  void printID() {
-    print(FirebaseAuth.instance.currentUser!.uid);
-    if (member != null) {
-      print(member!['prefecture'] as String);
-    }
-  }
-
   void toggleComment() {
     _canComment = !_canComment;
     notifyListeners();
   }
 
   Future submit() async {
-    if (amount == 0) {
-      throw ('投入量を入れてください');
-    }
+    final String postYear = _selectedDate.substring(0, 4);
+    final String postMonth = _selectedDate.substring(5, 7);
 
-    String postYear = selectDate.substring(0, 4);
-    String postMonth = selectDate.substring(5, 7);
+    if (amount == 0) {
+      throw ('投入量を記入してください');
+    }
 
     await FirebaseFirestore.instance
         .collection('posts')
