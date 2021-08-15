@@ -5,14 +5,14 @@ import 'post.dart';
 class Member {
   Member(DocumentSnapshot doc) {
     userId = doc.id;
-    iconImageURL = doc['iconImageURL'];
+    // iconImageURL = doc['iconImageURL'];
     userName = doc['userName'];
     sex = doc['sex'];
     prefecture = doc['prefecture'];
     area = doc['area'];
     introduction = doc['introduction'];
-    latestPost = doc['latestPost'];
-    post = doc['post'];
+    // latestPost = doc['latestPost'];
+    // post = doc['post'];
   }
 
   String? userId;
