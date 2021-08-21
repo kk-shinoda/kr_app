@@ -21,6 +21,7 @@ class SignupPage extends StatelessWidget {
           backgroundColor: Colors.brown.shade400,
         ),
         resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.orange.shade50,
         body: Container(
           height: double.infinity,
           width: double.infinity,
@@ -29,7 +30,6 @@ class SignupPage extends StatelessWidget {
             create: (_) => SignupModel(),
             child: Consumer<SignupModel>(builder: (context, model, child) {
               return SingleChildScrollView(
-                // body: Scaffold(
                 child: Padding(
                   padding: const EdgeInsets.all(30),
                   child: Column(
@@ -56,8 +56,6 @@ class SignupPage extends StatelessWidget {
                         },
                       ),
                       SizedBox(height: 60),
-
-                      /// キーボードをdigit.onlyに変更。8文字のバリデーションをかける。
                       TextField(
                         obscureText: true,
                         maxLength: 8,
@@ -82,13 +80,9 @@ class SignupPage extends StatelessWidget {
                           model.password = text;
                         },
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       const Text(
                           'パスワードは生年月日にしてください。(数字8文字)\n例) 1950年12月１日生まれの方：19501201'),
-                      const SizedBox(height: 20),
-
+                      const SizedBox(height: 30),
                       ElevatedButton(
                         child: _buttonContainer("登録"),
                         style: kButtonStyleForm,

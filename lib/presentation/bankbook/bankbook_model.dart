@@ -1,43 +1,67 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-
-import 'package:kr_app/domain/member.dart';
+import 'package:intl/intl.dart';
+import 'package:kr_app/logic/query_posts.dart';
+import 'package:kr_app/domain/my_post.dart';
 
 class BankBookModel extends ChangeNotifier {
-  final Stream<QuerySnapshot> _postsStream =
-      FirebaseFirestore.instance.collection('posts').snapshots();
-
   FirebaseAuth? auth;
-  Member? member;
+  String userId = '';
+  List<List<MyPost>>? posts;
+  bool isLoading = true;
+  String totalInfo = '';
+  List<int>? amounts;
+  int currentIndex = 5;
 
-  // BankBookModel() {
-  //   auth = FirebaseAuth.instance;
-  //   // member = null;
-  //   _init();
-  //   notifyListeners();
-  // }
+  BankBookModel() {
+    auth = FirebaseAuth.instance;
+    userId = FirebaseAuth.instance.currentUser!.uid;
+    totalInfo = '';
+    // member = null;
+    _init();
+    notifyListeners();
+  }
 
-  // Future _init() async {
-  //   final doc = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(auth!.currentUser!.uid)
-  //       .get();
-  //   if (member != null){
-  //     member = Member(member);
-  //   }
+  void turnThePage(int index) {
+    currentIndex = index;
+    startLoading();
+    totalInfo = totalInfo = _formatTotal(amounts!);
+    endLoading();
+  }
 
-  // }
+  Future<void> fetchData() async {
+    List<List<Object>> myPosts = await queryFromUserId(userId);
+    print(myPosts);
+    posts = myPosts[0] as List<List<MyPost>>;
+    amounts = myPosts[1] as List<int>;
+    totalInfo = _formatTotal(amounts!);
+    print(posts);
+    print(amounts);
+    notifyListeners();
+  }
 
-  // Future<void> fetchPostList() async {
-  //   try {
-  //     final docs = await FirebaseFirestore.instance.collection('users').collection('posts').orderBy('createdAt', descending: true).get();
-  //     final posts = docs.docs.map((docs) => Post(docs)).toList();
-  //     this.posts = posts;
-  //   } on Exception catch (e) {
-  //     print(e);
-  //   }
-  //   notifyListeners();
-  // }
+  Future<void> _init() async {
+    startLoading();
+    fetchData();
+    endLoading();
+  }
 
+  void startLoading() {
+    isLoading = true;
+    notifyListeners();
+  }
+
+  void endLoading() {
+    isLoading = false;
+    notifyListeners();
+  }
+
+  String _formatTotal(List<int> amount) {
+    final formatter = NumberFormat("#,###");
+    return "合計： " +
+        formatter.format(amounts![currentIndex]).toString() +
+        "グラム " +
+        (amounts![currentIndex] * 0.03).toStringAsFixed(1) +
+        "円";
+  }
 }

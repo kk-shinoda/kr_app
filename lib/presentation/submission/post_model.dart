@@ -3,31 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kr_app/logic/has_posted_areas.dart';
 
-class SubmissionModel with ChangeNotifier {
+class PostModel with ChangeNotifier {
   var _selectedDate = DateTime.now().toString();
   var _canComment = false;
   final TextEditingController amountController = TextEditingController();
   final TextEditingController commentController = TextEditingController();
 
   int amount = 0;
-  String? postDate;
+  int? postDate;
   String comment = '';
   String userId = '';
 
   /// 他の処理方法も追加の可能性
   String type = "キエーロ";
 
-  DocumentSnapshot? member;
+  DocumentSnapshot? postUser;
 
-  SubmissionModel() {
+  PostModel() {
     userId = FirebaseAuth.instance.currentUser!.uid;
     _init();
   }
 
   Future _init() async {
-    postDate = _selectedDate.substring(0, 10);
-    member =
+    postDate = dateToNumbers(_selectedDate);
+    postUser =
         await FirebaseFirestore.instance.collection('users').doc(userId).get();
   }
 
@@ -43,7 +44,7 @@ class SubmissionModel with ChangeNotifier {
     );
     if (selected != null) {
       _selectedDate = selected.toString();
-      postDate = _selectedDate.substring(0, 10);
+      postDate = dateToNumbers(_selectedDate);
       notifyListeners();
     }
   }
@@ -54,24 +55,23 @@ class SubmissionModel with ChangeNotifier {
   }
 
   Future submit() async {
-    final String postYear = _selectedDate.substring(0, 4);
-    final String postMonth = _selectedDate.substring(5, 7);
-
     if (amount == 0) {
       throw ('投入量を記入してください');
     }
 
-    await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postYear)
-        .collection(postMonth)
-        .add(
+    String prefectureAndArea = postUser!['prefecture'] + postUser!['area'];
+    if (!postPrefectureAndArea!.contains(prefectureAndArea)) {
+      await FirebaseFirestore.instance
+          .collection('areas')
+          .add({'prefectureAndArea': prefectureAndArea});
+    }
+
+    await FirebaseFirestore.instance.collection('posts').add(
       {
         'userId': userId,
-        'createdAt': Timestamp.now(),
         'amount': amount,
-        'prefecture': member!['prefecture'],
-        'area': member!['area'],
+        'prefecture': postUser!['prefecture'],
+        'area': postUser!['area'],
         'post_date': postDate,
         'type': type
       },
@@ -80,9 +80,7 @@ class SubmissionModel with ChangeNotifier {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
-        .collection('posts')
-        .doc(postYear)
-        .collection(postMonth)
+        .collection('myposts')
         .add(
       {
         'amount': amount,
@@ -92,9 +90,17 @@ class SubmissionModel with ChangeNotifier {
       },
     );
     amount = 0;
+    comment = "";
     amountController.clear();
     commentController.clear();
     _selectedDate = DateTime.now().toString();
     notifyListeners();
+  }
+
+  int dateToNumbers(String strDate) {
+    String tmp = strDate.substring(0, 4) +
+        strDate.substring(5, 7) +
+        strDate.substring(8, 10);
+    return int.parse(tmp);
   }
 }

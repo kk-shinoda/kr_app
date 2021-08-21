@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kr_app/common/constants.dart';
-import 'package:kr_app/presentation/submission/submission_model.dart';
+import 'package:kr_app/presentation/submission/post_model.dart';
 import 'package:provider/provider.dart';
 
-class SubmissionPage extends StatelessWidget {
+class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -27,9 +27,9 @@ class SubmissionPage extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             decoration: kBackgroundDecoration,
-            child: ChangeNotifierProvider<SubmissionModel>(
-              create: (_) => SubmissionModel(),
-              child: Consumer<SubmissionModel>(
+            child: ChangeNotifierProvider<PostModel>(
+              create: (_) => PostModel(),
+              child: Consumer<PostModel>(
                 builder: (context, model, child) {
                   return Center(
                     child: AnimatedContainer(

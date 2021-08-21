@@ -11,20 +11,16 @@ import 'login_model.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: MaterialApp(
-        home: Scaffold(
+    return MaterialApp(
+      home: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        child: Scaffold(
           appBar: AppBar(
             title: const Text('ログイン'),
             backgroundColor: Colors.brown.shade400,
           ),
           resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.orange.shade50,
           body: Container(
             height: double.infinity,
             width: double.infinity,
@@ -86,37 +82,33 @@ class LoginPage extends StatelessWidget {
                         const Text(
                             'ヒント：パスワードは生年月日です。(数字8文字)\n例) 1950年12月１日生まれの方：19501201'),
                         const SizedBox(height: 30),
-                        Column(
-                          children: [
-                            ElevatedButton(
-                              child: _buttonContainer("ログイン"),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.brown.shade400),
-                              onPressed: () async {
-                                try {
-                                  await model.login();
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TopPage()),
-                                  );
-                                } catch (e) {
-                                  _showDialog(context, e.toString());
-                                }
-                              },
-                            ),
-                            SizedBox(height: 10),
-                            ElevatedButton(
-                              child: _buttonContainer("新規登録はこちら"),
-                              style: kButtonStyleForm,
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignupPage()));
-                              },
-                            ),
-                          ],
+                        ElevatedButton(
+                          child: _buttonContainer("ログイン"),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.brown.shade400),
+                          onPressed: () async {
+                            try {
+                              await model.login();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TopPage()),
+                              );
+                            } catch (e) {
+                              _showDialog(context, e.toString());
+                            }
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                          child: _buttonContainer("新規登録はこちら"),
+                          style: kButtonStyleForm,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignupPage()));
+                          },
                         ),
                       ],
                     ),

@@ -1,19 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Post {
-  Post(DocumentSnapshot doc) {
-    this.userId = doc['userId'];
+class MyPost {
+  MyPost(DocumentSnapshot doc) {
     this.comment = doc['comment'];
-    this.area = doc['area'];
     this.type = doc['type'];
     this.amount = doc['amount'];
     this.postDate = doc['post_date'];
   }
 
-  String? userId;
-  String? postDate;
+  int? postDate;
   String? comment;
-  String? area;
   String? type;
   int? amount;
 }
