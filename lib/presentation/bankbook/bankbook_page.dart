@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/logic/get_tabbar_month.dart';
 import 'package:kr_app/presentation/bankbook/bankbook_model.dart';
@@ -92,10 +91,10 @@ class BankBookPage extends StatelessWidget {
                                                         .length <=
                                                     i
                                                 ? Text('')
-                                                : _buildBankListWithComment(
+                                                : buildBankList(
                                                     model
-                                                        .posts![tabController.index]
-                                                            [i]
+                                                        .posts![tabController
+                                                            .index][i]
                                                         .postDate
                                                         .toString(),
                                                     model
@@ -127,8 +126,7 @@ class BankBookPage extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 24,
                                     color: Colors.black87,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "KosugiMaru"),
+                                    fontFamily: "KaiseiTokumin"),
                               ),
                             ),
                           )
@@ -141,54 +139,4 @@ class BankBookPage extends StatelessWidget {
       }),
     );
   }
-
-  Widget _buildBankListWithComment(
-      String postDate, int amount, String comment) {
-    final formatterE = NumberFormat("##0.0#");
-    final formatterG = NumberFormat("###");
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-      child: Card(
-        child: comment == ""
-            ? ListTile(
-                trailing: Icon(
-                  Icons.expand_more,
-                  color: Colors.amber.withAlpha(0),
-                ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(formatDate(postDate)),
-                    Text(formatterG.format(amount).toString() + "グラム"),
-                    Text(formatterE.format((amount * 0.03)).toString() + "円"),
-                  ],
-                ),
-              )
-            : ExpansionTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(formatDate(postDate)),
-                    Text(formatterG.format(amount).toString() + "グラム"),
-                    Text(formatterE.format((amount * 0.03)).toString() + "円"),
-                  ],
-                ),
-                children: [
-                  ListTile(
-                    title: Text(comment),
-                  )
-                ],
-              ),
-      ),
-    );
-  }
-}
-
-String formatDate(String postDate) {
-  return postDate.substring(0, 4) +
-      "年" +
-      postDate.substring(4, 6) +
-      "月" +
-      postDate.substring(6, 8) +
-      "日";
 }

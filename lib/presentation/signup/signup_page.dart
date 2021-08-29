@@ -16,10 +16,7 @@ class SignupPage extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('新規登録'),
-          backgroundColor: Colors.brown.shade400,
-        ),
+        appBar: commonAppBar('新規登録'),
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.orange.shade50,
         body: Container(
@@ -31,11 +28,11 @@ class SignupPage extends StatelessWidget {
             child: Consumer<SignupModel>(builder: (context, model, child) {
               return SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                   child: Column(
                     children: [
                       const SizedBox(
-                        height: 80,
+                        height: 60,
                       ),
                       TextField(
                         textInputAction: TextInputAction.next,
@@ -55,7 +52,7 @@ class SignupPage extends StatelessWidget {
                           model.mail = text;
                         },
                       ),
-                      SizedBox(height: 60),
+                      SizedBox(height: 50),
                       TextField(
                         obscureText: true,
                         maxLength: 8,

@@ -15,10 +15,7 @@ class LoginPage extends StatelessWidget {
       home: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('ログイン'),
-            backgroundColor: Colors.brown.shade400,
-          ),
+          appBar: commonAppBar('ログイン'),
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.orange.shade50,
           body: Container(
@@ -30,11 +27,12 @@ class LoginPage extends StatelessWidget {
               child: Consumer<LoginModel>(builder: (context, model, child) {
                 return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(30),
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const SizedBox(
-                          height: 80,
+                          height: 60,
                         ),
                         TextField(
                           textInputAction: TextInputAction.next,
@@ -54,7 +52,7 @@ class LoginPage extends StatelessWidget {
                             model.mail = text;
                           },
                         ),
-                        SizedBox(height: 60),
+                        SizedBox(height: 50),
                         TextField(
                           obscureText: true,
                           maxLength: 8,

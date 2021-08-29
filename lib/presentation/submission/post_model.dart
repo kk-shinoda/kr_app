@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kr_app/logic/has_posted_areas.dart';
 
 class PostModel with ChangeNotifier {
+  FirebaseAuth auth = FirebaseAuth.instance;
   var _selectedDate = DateTime.now().toString();
   var _canComment = false;
   final TextEditingController amountController = TextEditingController();
@@ -22,7 +23,8 @@ class PostModel with ChangeNotifier {
   DocumentSnapshot? postUser;
 
   PostModel() {
-    userId = FirebaseAuth.instance.currentUser!.uid;
+    auth = FirebaseAuth.instance;
+    userId = auth.currentUser!.uid;
     _init();
   }
 
@@ -59,11 +61,11 @@ class PostModel with ChangeNotifier {
       throw ('投入量を記入してください');
     }
 
-    String prefectureAndArea = postUser!['prefecture'] + postUser!['area'];
-    if (!postPrefectureAndArea!.contains(prefectureAndArea)) {
+    String postArea = postUser!['area'];
+    if (!alreadyPostArea!.contains(postArea)) {
       await FirebaseFirestore.instance
           .collection('areas')
-          .add({'prefectureAndArea': prefectureAndArea});
+          .add({'area': postArea, 'prefecture': postUser!['prefecture']});
     }
 
     await FirebaseFirestore.instance.collection('posts').add(
@@ -74,6 +76,15 @@ class PostModel with ChangeNotifier {
         'area': postUser!['area'],
         'post_date': postDate,
         'type': type
+      },
+    );
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .update(
+      {
+        'latestPost': Timestamp.now(),
       },
     );
 

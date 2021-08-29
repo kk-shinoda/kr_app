@@ -31,12 +31,9 @@ class BankBookModel extends ChangeNotifier {
 
   Future<void> fetchData() async {
     List<List<Object>> myPosts = await queryFromUserId(userId);
-    print(myPosts);
     posts = myPosts[0] as List<List<MyPost>>;
     amounts = myPosts[1] as List<int>;
     totalInfo = _formatTotal(amounts!);
-    print(posts);
-    print(amounts);
     notifyListeners();
   }
 

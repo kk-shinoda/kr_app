@@ -16,11 +16,7 @@ class PostPage extends StatelessWidget {
       },
       child: MaterialApp(
         home: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 60,
-            backgroundColor: Colors.brown.shade400,
-            title: Text('投稿'),
-          ),
+          appBar: commonAppBar('投稿'),
           backgroundColor: Colors.orange.shade50,
           resizeToAvoidBottomInset: false,
           body: Container(
@@ -59,7 +55,7 @@ class PostPage extends StatelessWidget {
                                       width: 80,
                                       child: TextField(
                                         controller: model.amountController,
-                                        maxLength: 3,
+                                        maxLength: 4,
                                         decoration: InputDecoration(
                                             hintText: '例：150',
                                             border: InputBorder.none,
