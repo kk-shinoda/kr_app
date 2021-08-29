@@ -7,19 +7,22 @@ class MembersModel extends ChangeNotifier {
   bool isLoading = true;
   List<Member>? members;
   int targetMembersLength = 0;
+  int todayMembers = 0;
   MembersModel() {
     startLoading();
-    _init();
-    // print('members' + members![0].area!);
+    _fetchData();
     endLoading();
   }
 
-  Future _init() async {
+  Future _fetchData() async {
     members = await fetchMembersList();
     targetMembersLength = members!.length;
-    print(members![0].area);
+    todayMembers = postTodayMembers(members!);
+  }
+
+  Future<void> reload() async {
+    _fetchData();
     notifyListeners();
-    // await fetchMembersList();
   }
 
   void startLoading() {
@@ -30,5 +33,19 @@ class MembersModel extends ChangeNotifier {
   void endLoading() {
     isLoading = false;
     notifyListeners();
+  }
+
+  int postTodayMembers(List<Member> members) {
+    int count = 0;
+    members.forEach((element) {
+      final postDay = element.latestPost!.toDate();
+      final now = DateTime.now();
+      if (postDay.year == now.year &&
+          postDay.month == now.month &&
+          postDay.day == now.day) {
+        count += 1;
+      }
+    });
+    return count;
   }
 }
