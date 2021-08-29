@@ -1,12 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:kr_app/common/constants.dart';
+import 'package:kr_app/domain/member.dart';
+import 'package:provider/provider.dart';
+
+import 'member_detail_page.dart';
+import 'members_model.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class MembersPage extends StatelessWidget {
-  const MembersPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => MembersModel(),
+      child: Consumer<MembersModel>(builder: (context, model, child) {
+        return Scaffold(
+            appBar: AppBar(
+                toolbarHeight: 60,
+                backgroundColor: Colors.brown.shade400,
+                title: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    '全国の仲間たち',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {},
+                    child: Icon(Icons.refresh, color: Colors.lime.shade100),
+                  )
+                ]),
+            backgroundColor: Colors.orange.shade50,
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: kBackgroundDecoration,
+              child: model.isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(24, 28, 24, 8),
+                          child: Card(
+                            color: Colors.brown.shade200,
+                            shadowColor: Colors.brown.shade800,
+                            elevation: 10,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  image: DecorationImage(
+                                      image:
+                                          AssetImage("assets/images/wood.jpg"),
+                                      fit: BoxFit.fitWidth)),
+                              height: 90,
+                              child: Center(
+                                  child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    '現在登録している人数は　' +
+                                        model.targetMembersLength.toString() +
+                                        '人',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: "KaiseiTokumin"),
+                                  ),
+                                  Text(
+                                    '本日投入してくれた人数は　0人',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: "KaiseiTokumin"),
+                                  ),
+                                ],
+                              )),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GridView.count(
+                              primary: false,
+                              padding: const EdgeInsets.all(8),
+                              crossAxisCount: 3,
+                              children:
+                                  List.generate(model.members!.length, (index) {
+                                return Column(
+                                  children: [
+                                    Hero(
+                                      child: _blueRectangle(context, index,
+                                          model.members![index]),
+                                      tag: 'tag' + index.toString(),
+                                    ),
+                                    AutoSizeText(
+                                        model.members![index].userName!)
+                                  ],
+                                );
+                              })),
+                        ),
+                      ],
+                    ),
+            ));
+      }),
+    );
+  }
+
+  Widget _blueRectangle(BuildContext context, int index, Member member) {
     return Container(
-      child: Center(child: Text('みんな')),
+        height: 95,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+                image: AssetImage('assets/images/placeholder.png'))),
+        child: GestureDetector(
+          onTap: () => _gotoDetailsPage(context, index, member),
+        ));
+  }
+
+  void _gotoDetailsPage(BuildContext context, int index, Member member) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (BuildContext context) {
+        return MemberDetailPage(index, member);
+      }),
     );
   }
 }

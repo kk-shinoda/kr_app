@@ -7,14 +7,14 @@ import 'presentation/login/login_page.dart';
 import 'presentation/profile_setting/profile_setting_page.dart';
 import 'presentation/signup/signup_page.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-//       .then((_) {
-//     runApp(SignupPage());
-//   });
-// }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(LoginPage());
+  });
+}
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -25,11 +25,11 @@ import 'presentation/signup/signup_page.dart';
 //   });
 // }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(TopPage());
-  });
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+//       .then((_) {
+//     runApp(TopPage());
+//   });
+// }

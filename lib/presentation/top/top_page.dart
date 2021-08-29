@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/presentation/bankbook/bankbook_page.dart';
 import 'package:kr_app/presentation/members/members_page.dart';
 import 'package:kr_app/presentation/mypage/mypage_page.dart';
-import 'package:kr_app/presentation/submission/submission_page.dart';
+import 'package:kr_app/presentation/submission/post_page.dart';
 import 'package:kr_app/presentation/top/top_model.dart';
 import 'package:provider/provider.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class TopPage extends StatelessWidget {
   final List<Widget> _pageList = <Widget>[
-    SubmissionPage(),
+    PostPage(),
     BankBookPage(),
     MembersPage(),
     MyPagePage()

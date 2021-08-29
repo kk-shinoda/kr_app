@@ -30,6 +30,7 @@ dependencies:
   firebase_auth: ^3.0.1
   firebase_storage: ^10.0.1
   convex_bottom_bar: ^3.0.0
+  auto_size_text: ^3.0.0-nullsafety.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,8 +52,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/placeholder.png
+    - assets/images/wood.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -66,11 +68,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: KosugiMaru
+      fonts:
+        - asset: assets/fonts/KosugiMaru-Regular.ttf
+    - family: KaiseiTokumin
+      fonts:
+        - asset: assets/fonts/KaiseiTokumin-Bold.ttf
+        
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

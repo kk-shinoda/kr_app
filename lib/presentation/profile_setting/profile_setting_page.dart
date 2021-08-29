@@ -1,3 +1,4 @@
+import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/domain/area.dart';
 import 'package:kr_app/domain/prefecture.dart';
 import 'package:kr_app/domain/sex.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kr_app/presentation/top/top_page.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart' as DateFormat;
 
 import 'profile_setting_model.dart';
 
@@ -14,15 +14,11 @@ class ProfileSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bottomSpace = MediaQuery.of(context).viewInsets.bottom;
-    final size = MediaQuery.of(context).size;
     return ChangeNotifierProvider<ProfileSettingModel>(
       create: (_) => ProfileSettingModel(),
       child: Consumer<ProfileSettingModel>(builder: (context, model, child) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('プロフィール入力'),
-            backgroundColor: Colors.brown.shade400,
-          ),
+          appBar: commonAppBar('プロフィール入力'),
           backgroundColor: Colors.orange.shade50,
           resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
@@ -42,9 +38,6 @@ class ProfileSettingPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
                               // ↓次の遷移画面でプロフィール画像を追加。
                               // GestureDetector(
                               //   onTap: () async {
@@ -89,9 +82,10 @@ class ProfileSettingPage extends StatelessWidget {
                                     model.toggleIsEdittingIntroduction(false);
                                   },
                                   textInputAction: TextInputAction.next,
+                                  maxLength: 8,
                                   decoration: InputDecoration(
                                     labelText: 'ユーザーネーム',
-                                    hintText: 'ユーザーネームを入力してください',
+                                    hintText: 'ユーザーネームを入力してください(8文字以下)',
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     focusedBorder: OutlineInputBorder(
