@@ -17,7 +17,6 @@ class SignupModel extends ChangeNotifier {
 
   Future signUp() async {
     if (mail.isEmpty) {
-      print('aa');
       throw ('メールアドレスを入力してください');
     }
 

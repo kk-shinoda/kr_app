@@ -17,7 +17,6 @@ class LoginModel extends ChangeNotifier {
 
   Future login() async {
     if (mail.isEmpty) {
-      print('aa');
       throw ('メールアドレスを入力してください');
     }
 

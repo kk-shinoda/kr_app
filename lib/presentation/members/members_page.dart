@@ -18,6 +18,7 @@ class MembersPage extends StatelessWidget {
                 toolbarHeight: 60,
                 backgroundColor: Colors.brown.shade400,
                 title: TextButton(
+                  // ここで地域ごとのクエリ
                   onPressed: () {},
                   child: Text(
                     '全国の仲間たち',
@@ -26,7 +27,9 @@ class MembersPage extends StatelessWidget {
                 ),
                 actions: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      model.reload();
+                    },
                     child: Icon(Icons.refresh, color: Colors.lime.shade100),
                   )
                 ]),
@@ -60,7 +63,7 @@ class MembersPage extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    '現在登録している人数は　' +
+                                    '現在登録している人数は　 ' +
                                         model.targetMembersLength.toString() +
                                         '人',
                                     style: TextStyle(
@@ -68,7 +71,9 @@ class MembersPage extends StatelessWidget {
                                         fontFamily: "KaiseiTokumin"),
                                   ),
                                   Text(
-                                    '本日投入してくれた人数は　0人',
+                                    '本日投入してくれた人数は ' +
+                                        model.todayMembers.toString() +
+                                        '人',
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontFamily: "KaiseiTokumin"),
