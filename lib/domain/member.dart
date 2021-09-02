@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Member {
   Member(DocumentSnapshot doc) {
     userId = doc['userId'];
-    // iconImageURL = doc['iconImageURL'];
+    imageURL = doc['imageURL'];
     userName = doc['userName'];
     sex = doc['sex'];
     prefecture = doc['prefecture'];
@@ -14,7 +14,7 @@ class Member {
   }
 
   String? userId;
-  // String? iconImageURL;
+  String? imageURL;
   String? userName;
   String? sex;
   String prefecture = 'UNSELECTED';

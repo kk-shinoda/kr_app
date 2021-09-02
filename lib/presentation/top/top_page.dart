@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/presentation/bankbook/bankbook_page.dart';
 import 'package:kr_app/presentation/members/members_page.dart';
 import 'package:kr_app/presentation/mypage/mypage_page.dart';
@@ -36,6 +35,7 @@ class TopPage extends StatelessWidget {
               bottomNavigationBar: ConvexAppBar(
                 initialActiveIndex: model.currentIndex,
                 onTap: (index) {
+                  WidgetsFlutterBinding.ensureInitialized();
                   model.setCurrentIndex(index);
                 },
                 items: tabItems,

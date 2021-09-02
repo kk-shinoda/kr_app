@@ -8,21 +8,23 @@ class MembersModel extends ChangeNotifier {
   List<Member>? members;
   int targetMembersLength = 0;
   int todayMembers = 0;
+
   MembersModel() {
-    startLoading();
     _fetchData();
-    endLoading();
   }
 
-  Future _fetchData() async {
+  Future<void> _fetchData() async {
+    startLoading();
     members = await fetchMembersList();
     targetMembersLength = members!.length;
     todayMembers = postTodayMembers(members!);
+    endLoading();
   }
 
-  Future<void> reload() async {
+  void reload() {
+    endLoading();
     _fetchData();
-    notifyListeners();
+    endLoading();
   }
 
   void startLoading() {

@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math' as Math;
 
 class SignupModel extends ChangeNotifier {
   String mail = '';
   String password = '';
+  DateTime? latestPost;
 
   final mailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -13,6 +15,8 @@ class SignupModel extends ChangeNotifier {
   SignupModel() {
     mail = '';
     password = '';
+    latestPost = DateTime.now();
+    latestPost = latestPost!.add(Duration(days: -1));
   }
 
   Future signUp() async {
@@ -34,22 +38,19 @@ class SignupModel extends ChangeNotifier {
     ))
         .user;
 
+    String assumedName = mail.split('@')[0];
     await FirebaseFirestore.instance.collection('users').doc(user!.uid).set(
       {
-        'userId': user.uid,
-        'createdAt': Timestamp.now(),
+        'userId': auth.currentUser!.uid,
+        'imageURL': "",
+        'userName': assumedName.substring(0, Math.min(8, assumedName.length)),
+        'sex': "UNSELECTED",
+        'prefecture': "UNSELECTED",
+        'area': "UNSELECTED",
+        'introduction': "",
+        'latestPost': Timestamp.fromDate(latestPost!),
+        'isCommentPublic': true
       },
     );
-
-    // await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(user.uid)
-    //     .collection('posts')
-    //     .doc(user.uid)
-    //     .set(
-    //   {
-    //     'email': user.email,
-    //   },
-    // );
   }
 }

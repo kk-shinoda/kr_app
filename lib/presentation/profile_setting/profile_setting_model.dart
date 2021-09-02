@@ -1,17 +1,12 @@
-import 'dart:io';
-
 import 'package:kr_app/domain/area.dart';
 import 'package:kr_app/domain/prefecture.dart';
 import 'package:kr_app/domain/sex.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
 
 class ProfileSettingModel extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
-  // File? imageFile;
   String? userName;
   DateTime? bymd;
   Sex? sex;
@@ -22,6 +17,7 @@ class ProfileSettingModel extends ChangeNotifier {
   int prefectureIndex = 0;
   int areaIndex = 0;
   bool isCommentPublic = true;
+  DateTime? latestPost;
 
   bool isEdittingIntroduction = false;
 
@@ -32,7 +28,6 @@ class ProfileSettingModel extends ChangeNotifier {
 
   ProfileSettingModel() {
     auth = FirebaseAuth.instance;
-    // imageFile = null;
     userName = '';
     sex = Sex.UNSELECTED;
     prefecture = Prefecture.UNSELECTED;
@@ -41,52 +36,32 @@ class ProfileSettingModel extends ChangeNotifier {
     sexIndex = 0;
     prefectureIndex = 0;
     areaIndex = 0;
+    latestPost = DateTime.now();
+    latestPost = latestPost!.add(Duration(days: -1));
     notifyListeners();
   }
 
-  // Future showImagePicker() async {
-  //   final picker = ImagePicker();
-  //   final pickerFile = await picker.getImage(source: ImageSource.gallery);
-  //   imageFile = File(pickerFile.path);
-  //   notifyListeners();
-  // }
-
-  // Future<String> _uploadImage() async {
-  //   final String uid = auth.currentUser!.uid;
-  //   final storage = FirebaseStorage.instance;
-  //   final TaskSnapshot snapshot = await storage
-  //       .ref()
-  //       .child("beauticians/$uid/ProfileIcon")
-  //       .putFile(imageFile);
-  //   final String downloadUrl = await snapshot.ref.getDownloadURL();
-  //   return downloadUrl;
-  // }
-
   Future signUp() async {
     if (userName!.isEmpty) {
-      throw ('ユーザーネームを入力してください。');
+      throw ('ユーザー名を入力してください。');
     }
 
-    // String iconImageURL = '';
-    // if (imageFile != null) {
-    //   iconImageURL = await _uploadImage();
-    // }
     final String sex = this.sex!.value;
     final String prefecture = this.prefecture!.value;
     final String area = this.area!.value;
     await FirebaseFirestore.instance
         .collection('users')
         .doc(auth.currentUser!.uid)
-        .set(
+        .update(
       {
         'userId': auth.currentUser!.uid,
-        // 'iconImageURL': iconImageURL,
+        'imageURL': "",
         'userName': userName,
         'sex': sex,
         'prefecture': prefecture,
         'area': area,
         'introduction': introduction,
-        'latestPost': Timestamp.now(),
+        'latestPost': Timestamp.fromDate(latestPost!),
         'isCommentPublic': isCommentPublic
       },
     );

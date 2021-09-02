@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 List<String>? alreadyPostArea;
 
-void fetchExistAreas() async {
+Future<void> fetchExistAreas() async {
   final QuerySnapshot snapshot =
       await FirebaseFirestore.instance.collection('areas').get();
   final List<String> areas = snapshot.docs.map((DocumentSnapshot document) {

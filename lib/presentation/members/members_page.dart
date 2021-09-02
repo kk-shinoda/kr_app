@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/domain/member.dart';
+import 'package:kr_app/presentation/login/login_page.dart';
 import 'package:provider/provider.dart';
 
 import 'member_detail_page.dart';
@@ -93,7 +95,7 @@ class MembersPage extends StatelessWidget {
                                 return Column(
                                   children: [
                                     Hero(
-                                      child: _blueRectangle(context, index,
+                                      child: _showIconImage(context, index,
                                           model.members![index]),
                                       tag: 'tag' + index.toString(),
                                     ),
@@ -110,16 +112,23 @@ class MembersPage extends StatelessWidget {
     );
   }
 
-  Widget _blueRectangle(BuildContext context, int index, Member member) {
-    return Container(
-        height: 95,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-                image: AssetImage('assets/images/placeholder.png'))),
-        child: GestureDetector(
-          onTap: () => _gotoDetailsPage(context, index, member),
-        ));
+  Widget _showIconImage(BuildContext context, int index, Member member) {
+    return GestureDetector(
+        onTap: () => _gotoDetailsPage(context, index, member),
+        child: ClipOval(
+            child: member.imageURL != ""
+                ? Image.network(
+                    member.imageURL!,
+                    height: 95,
+                    width: 95,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    "assets/images/placeholder.jpg",
+                    height: 95,
+                    width: 95,
+                    fit: BoxFit.cover,
+                  )));
   }
 
   void _gotoDetailsPage(BuildContext context, int index, Member member) {

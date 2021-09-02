@@ -12,7 +12,7 @@ class TopModel with ChangeNotifier {
   }
 
   Future _init() async {
-    fetchExistAreas();
+    await fetchExistAreas();
   }
 
   void setCurrentIndex(int index) {

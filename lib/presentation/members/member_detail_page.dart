@@ -10,7 +10,6 @@ class MemberDetailPage extends StatelessWidget {
   final int index;
   final Member member;
   MemberDetailPage(this.index, this.member);
-  bool isCommentFull = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,36 +29,43 @@ class MemberDetailPage extends StatelessWidget {
                 children: [
                   Hero(
                       tag: 'tag' + index.toString(),
-                      // child: _blueRectangle(context),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/placeholder.png')))),
+                        child: ClipOval(
+                            child: member.imageURL != ""
+                                ? Image.network(
+                                    member.imageURL!,
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    "assets/images/placeholder.jpg",
+                                    height: 95,
+                                    width: 95,
+                                    fit: BoxFit.cover,
+                                  )),
                       )),
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        child: Text(
-                          member.userName!,
-                          style: TextStyle(fontSize: 20),
+                  Flexible(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                          child: Text(
+                            member.userName!,
+                            style: TextStyle(fontSize: 20),
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                        child: Text(
-                            PrefectureHelper.from(member.prefecture).name +
-                                '  ' +
-                                AreaHelper.from(member.area).name,
-                            style: TextStyle(fontSize: 14)),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                          child: Text(
+                              PrefectureHelper.from(member.prefecture).name +
+                                  '  ' +
+                                  AreaHelper.from(member.area).name,
+                              style: TextStyle(fontSize: 14)),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -4,7 +4,7 @@ import 'package:kr_app/domain/member.dart';
 Future<List<Member>> fetchMembersList() async {
   final QuerySnapshot snapshot = await FirebaseFirestore.instance
       .collection('users')
-      .orderBy('latestPost')
+      .orderBy('latestPost', descending: true)
       .get();
 
   return snapshot.docs.map((DocumentSnapshot document) {

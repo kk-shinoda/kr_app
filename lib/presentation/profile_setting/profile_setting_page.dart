@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:kr_app/presentation/top/top_page.dart';
 import 'package:provider/provider.dart';
 
+import 'image_setting_page.dart';
 import 'profile_setting_model.dart';
 
 class ProfileSettingPage extends StatelessWidget {
@@ -21,18 +22,21 @@ class ProfileSettingPage extends StatelessWidget {
           appBar: commonAppBar('プロフィール入力'),
           backgroundColor: Colors.orange.shade50,
           resizeToAvoidBottomInset: false,
-          body: SingleChildScrollView(
-            reverse: true,
-            child: Padding(
-              padding: model.isEdittingIntroduction
-                  ? EdgeInsets.only(bottom: bottomSpace)
-                  : EdgeInsets.only(bottom: 0),
-              child: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    child: SafeArea(
-                      child: Center(
+          body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: kBackgroundDecoration,
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Padding(
+                padding: model.isEdittingIntroduction
+                    ? EdgeInsets.only(bottom: bottomSpace)
+                    : EdgeInsets.only(bottom: 0),
+                child: GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: Scrollbar(
+                    child: SingleChildScrollView(
+                      child: SafeArea(
                         child: Padding(
                           padding: const EdgeInsets.all(20),
                           child: Column(
@@ -72,7 +76,7 @@ class ProfileSettingPage extends StatelessWidget {
                               //   ),
                               // ),
                               const SizedBox(
-                                height: 40,
+                                height: 20,
                               ),
                               Padding(
                                 padding:
@@ -84,8 +88,9 @@ class ProfileSettingPage extends StatelessWidget {
                                   textInputAction: TextInputAction.next,
                                   maxLength: 8,
                                   decoration: InputDecoration(
-                                    labelText: 'ユーザーネーム',
-                                    hintText: 'ユーザーネームを入力してください(8文字以下)',
+                                    labelText: 'ユーザー名',
+                                    hintText: 'ユーザー名を入力してください(8文字以下)',
+                                    hintStyle: TextStyle(fontSize: 12),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
                                     focusedBorder: OutlineInputBorder(
@@ -101,12 +106,9 @@ class ProfileSettingPage extends StatelessWidget {
                                   },
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
 
                               Container(
-                                height: 50,
+                                height: 30,
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 10),
                                 decoration: const BoxDecoration(
@@ -216,7 +218,6 @@ class ProfileSettingPage extends StatelessWidget {
                                       Text(
                                         model.area!.name,
                                         style: const TextStyle(
-                                          // color: App.primaryColor,
                                           fontSize: 16,
                                         ),
                                       ),
@@ -258,12 +259,13 @@ class ProfileSettingPage extends StatelessWidget {
                                       ),
                                       Container(
                                         constraints: const BoxConstraints(
-                                          minHeight: 150,
+                                          minHeight: 100,
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextField(
                                             maxLength: 150,
+                                            minLines: 1,
                                             onTap: () {
                                               model
                                                   .toggleIsEdittingIntroduction(
@@ -290,21 +292,24 @@ class ProfileSettingPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
+
                               ElevatedButton(
-                                child: const Text("登録"),
+                                child: const Text("次へ"),
                                 style: ElevatedButton.styleFrom(
                                     primary: Colors.brown.shade400),
                                 onPressed: () async {
-                                  await model.signUp();
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TopPage(),
-                                    ),
-                                  );
+                                  try {
+                                    await model.signUp();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ImageSettingPage(),
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    _showDialog(context, e.toString());
+                                  }
                                 },
                               ),
                             ],
@@ -580,4 +585,23 @@ class ProfileSettingPage extends StatelessWidget {
       },
     );
   }
+}
+
+Future _showDialog(BuildContext context, String title) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
