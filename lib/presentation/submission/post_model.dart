@@ -58,7 +58,7 @@ class PostModel with ChangeNotifier {
 
   Future submit() async {
     if (amount == 0) {
-      throw ('投入量を記入してください');
+      return;
     }
 
     String postArea = postUser!['area'];

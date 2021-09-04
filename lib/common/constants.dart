@@ -16,7 +16,11 @@ ButtonStyle kButtonStyleForm =
     ElevatedButton.styleFrom(primary: Colors.brown.shade400);
 
 AppBar commonAppBar(String title) {
-  return AppBar(title: Text(title), backgroundColor: Colors.brown.shade400);
+  return AppBar(
+    title: Text(title),
+    backgroundColor: Colors.brown.shade400,
+    toolbarHeight: 60,
+  );
 }
 
 Widget buildBankList(String postDate, int amount, String comment,

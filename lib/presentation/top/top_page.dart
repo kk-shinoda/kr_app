@@ -23,7 +23,7 @@ class TopPage extends StatelessWidget {
         child: Consumer<TopModel>(
           builder: (context, model, child) {
             final tabItems = [
-              const TabItem(icon: Icon(Icons.create_outlined), title: '投稿'),
+              const TabItem(icon: Icon(Icons.create_outlined), title: '投入'),
               const TabItem(icon: Icon(Icons.receipt_outlined), title: '通帳'),
               const TabItem(icon: Icon(Icons.groups_outlined), title: '仲間'),
               const TabItem(icon: Icon(Icons.person_outline), title: 'マイページ'),

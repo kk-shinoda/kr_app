@@ -27,294 +27,242 @@ class ProfileSettingPage extends StatelessWidget {
             height: double.infinity,
             decoration: kBackgroundDecoration,
             child: SingleChildScrollView(
-              reverse: true,
               child: Padding(
                 padding: model.isEdittingIntroduction
                     ? EdgeInsets.only(bottom: bottomSpace)
                     : EdgeInsets.only(bottom: 0),
                 child: GestureDetector(
                   onTap: () => FocusScope.of(context).unfocus(),
-                  child: Scrollbar(
-                    child: SingleChildScrollView(
-                      child: SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              // ↓次の遷移画面でプロフィール画像を追加。
-                              // GestureDetector(
-                              //   onTap: () async {
-                              //     // アイコン設定
-                              //     // await model.showImagePicker();
-                              //   },
-                              //   child: Stack(
-                              //     children: [
-                              //       ClipOval(
-                              //         child: Container(
-                              //           color: Colors.white,
-                              //           child: model.imageFile != null
-                              //               ? Image.file(
-                              //                   model.imageFile,
-                              //                   height: 140,
-                              //                   width: 140,
-                              //                   fit: BoxFit.cover,
-                              //                 )
-                              //               : const Icon(
-                              //                   Icons.account_circle,
-                              //                   size: 140,
-                              //                   color: Colors.grey,
-                              //                 ),
-                              //         ),
-                              //       ),
-                              //       Positioned(
-                              //         right: 0,
-                              //         bottom: 0,
-                              //         child: cameraIcon(),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                child: TextField(
-                                  onTap: () {
-                                    model.toggleIsEdittingIntroduction(false);
-                                  },
-                                  textInputAction: TextInputAction.next,
-                                  maxLength: 8,
-                                  decoration: InputDecoration(
-                                    labelText: 'ユーザー名',
-                                    hintText: 'ユーザー名を入力してください(8文字以下)',
-                                    hintStyle: TextStyle(fontSize: 12),
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.always,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  controller: model.userNameController,
-                                  onChanged: (text) {
-                                    model.userName = text;
-                                  },
-                                ),
-                              ),
-
-                              Container(
-                                height: 30,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 0.3,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 0.3,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                child: InkWell(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        '性別',
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      Text(
-                                        model.sex!.name,
-                                        style: const TextStyle(
-                                          // color: App.primaryColor,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () {
-                                    // キーボードのフォーカスを外す
-                                    FocusScope.of(context).unfocus();
-                                    _sexPicker(context, model);
-                                  },
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 0.3,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                child: InkWell(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        '都道府県',
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      Text(
-                                        model.prefecture!.name,
-                                        style: const TextStyle(
-                                          // color: App.primaryColor,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () {
-                                    // キーボードのフォーカスを外す
-                                    FocusScope.of(context).unfocus();
-                                    _prefecturePicker(context, model);
-                                  },
-                                ),
-                              ),
-                              Container(
-                                height: 50,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 0.3,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                child: InkWell(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        'エリア',
-                                        style: const TextStyle(fontSize: 16),
-                                      ),
-                                      Text(
-                                        model.area!.name,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  onTap: () {
-                                    if (model.area != Area.UNSELECTED) {
-                                      _areaPicker(context, model);
-                                    }
-                                  },
-                                ),
-                              ),
-                              Container(
-                                // height: 200,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 0.3,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                                child: Container(
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 18),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Container(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10),
-                                        child: const Text(
-                                          '自己紹介',
-                                          style: const TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      Container(
-                                        constraints: const BoxConstraints(
-                                          minHeight: 100,
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextField(
-                                            maxLength: 150,
-                                            minLines: 1,
-                                            onTap: () {
-                                              model
-                                                  .toggleIsEdittingIntroduction(
-                                                      true);
-                                            },
-                                            decoration: InputDecoration(
-                                                border: InputBorder.none),
-                                            textInputAction:
-                                                TextInputAction.done,
-                                            keyboardType:
-                                                TextInputType.multiline,
-                                            maxLines: null,
-                                            controller:
-                                                model.introductionController,
-                                            textCapitalization:
-                                                TextCapitalization.sentences,
-                                            onChanged: (text) {
-                                              model.introduction = text;
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-
-                              ElevatedButton(
-                                child: const Text("次へ"),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.brown.shade400),
-                                onPressed: () async {
-                                  try {
-                                    await model.signUp();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ImageSettingPage(),
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    _showDialog(context, e.toString());
-                                  }
-                                },
-                              ),
-                            ],
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 30,
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                            child: TextField(
+                              onTap: () {
+                                model.toggleIsEdittingIntroduction(false);
+                              },
+                              textInputAction: TextInputAction.next,
+                              maxLength: 8,
+                              decoration: InputDecoration(
+                                labelText: 'ユーザー名',
+                                hintText: 'ユーザー名を入力してください(8文字以下)',
+                                hintStyle: TextStyle(fontSize: 12),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              controller: model.userNameController,
+                              onChanged: (text) {
+                                model.userName = text;
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: 30,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 0.3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 0.3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            child: InkWell(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    '性別',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    model.sex!.name,
+                                    style: const TextStyle(
+                                      // color: App.primaryColor,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                // キーボードのフォーカスを外す
+                                FocusScope.of(context).unfocus();
+                                _sexPicker(context, model);
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 0.3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            child: InkWell(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    '都道府県',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    model.prefecture!.name,
+                                    style: const TextStyle(
+                                      // color: App.primaryColor,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                // キーボードのフォーカスを外す
+                                FocusScope.of(context).unfocus();
+                                _prefecturePicker(context, model);
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: 50,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 0.3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            child: InkWell(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'エリア',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    model.area!.name,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                if (model.area != Area.UNSELECTED) {
+                                  _areaPicker(context, model);
+                                }
+                              },
+                            ),
+                          ),
+                          Container(
+                            // height: 200,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 0.3,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.only(top: 12, bottom: 18),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: const Text(
+                                      '自己紹介',
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                  Container(
+                                    constraints: const BoxConstraints(
+                                      minHeight: 100,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextField(
+                                        maxLength: 150,
+                                        minLines: 1,
+                                        onTap: () {
+                                          model.toggleIsEdittingIntroduction(
+                                              true);
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none),
+                                        textInputAction: TextInputAction.done,
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        controller:
+                                            model.introductionController,
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
+                                        onChanged: (text) {
+                                          model.introduction = text;
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            child: const Text("次へ"),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.brown.shade400),
+                            onPressed: () async {
+                              try {
+                                await model.signUp();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ImageSettingPage(),
+                                  ),
+                                );
+                              } catch (e) {
+                                _showDialog(context, e.toString());
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -324,30 +272,6 @@ class ProfileSettingPage extends StatelessWidget {
           ),
         );
       }),
-    );
-  }
-
-  /// カメラアイコン
-  Widget cameraIcon() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          // color: App.primaryColor,
-        ),
-        shape: BoxShape.circle,
-      ),
-      child: const SizedBox(
-        height: 30,
-        child: CircleAvatar(
-          // backgroundColor: App.primaryColor,
-          child: Icon(
-            Icons.photo_camera_outlined,
-            size: 16,
-            color: Colors.white,
-          ),
-        ),
-      ),
     );
   }
 

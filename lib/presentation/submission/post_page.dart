@@ -16,7 +16,19 @@ class PostPage extends StatelessWidget {
       },
       child: MaterialApp(
         home: Scaffold(
-          appBar: commonAppBar('投稿'),
+          appBar: AppBar(
+            title: Text('投入'),
+            backgroundColor: Colors.brown.shade400,
+            toolbarHeight: 60,
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    _showDialog(context,
+                        'このアプリは、生ごみを自家処理した量と、それにより、不要になった税金（30円/㎏で換算）を記録することを目的としています');
+                  },
+                  icon: Icon(Icons.help))
+            ],
+          ),
           backgroundColor: Colors.orange.shade50,
           resizeToAvoidBottomInset: false,
           body: Container(
@@ -142,8 +154,17 @@ class PostPage extends StatelessWidget {
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                           primary: Colors.brown),
-                                      onPressed: () {
-                                        model.submit();
+                                      onPressed: () async {
+                                        model.amount == 0
+                                            ? _showDialog(
+                                                context, '投入量を記入してください')
+                                            : _showDialog(
+                                                context,
+                                                '税金' +
+                                                    (model.amount * 0.03)
+                                                        .toStringAsFixed(1) +
+                                                    '円分を節約しました');
+                                        await model.submit();
                                       },
                                       child: Text('送信'),
                                     ),
@@ -164,4 +185,23 @@ class PostPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future _showDialog(BuildContext context, String title) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        actions: [
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

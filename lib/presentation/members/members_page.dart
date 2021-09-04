@@ -23,7 +23,7 @@ class MembersPage extends StatelessWidget {
                   // ここで地域ごとのクエリ
                   onPressed: () {},
                   child: Text(
-                    '全国の仲間たち',
+                    '仲間たち',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
