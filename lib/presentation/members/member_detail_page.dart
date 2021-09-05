@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/domain/area.dart';
@@ -9,12 +10,27 @@ import 'package:kr_app/logic/query_posts.dart';
 class MemberDetailPage extends StatelessWidget {
   final int index;
   final Member member;
-  MemberDetailPage(this.index, this.member);
+  final bool isOthers;
+  MemberDetailPage(this.index, this.member, this.isOthers);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: commonAppBar('詳細'),
+      appBar: AppBar(
+        title: Text('詳細'),
+        backgroundColor: Colors.brown.shade400,
+        toolbarHeight: 60,
+        actions: [
+          isOthers
+              ? IconButton(
+                  onPressed: () async {
+                    _showDialog(context, 'このユーザーを通報しますか？', member);
+                  },
+                  icon: Icon(Icons.campaign_outlined,
+                      color: Colors.lime.shade100))
+              : SizedBox()
+        ],
+      ),
       backgroundColor: Colors.orange.shade50,
       body: Container(
         width: double.infinity,
@@ -137,4 +153,36 @@ String _calculateSumAmount(List<MyPost> userData) {
       'g\n累計の投入量　' +
       allTimeSum.toString() +
       'g';
+}
+
+Future _showDialog(BuildContext context, String title, Member member) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content:
+            Text('\n通報の対象\n・プロフィール画像が不適切\n・自己紹介が不適切\n・投入量が不自然\n・投入コメントが不適切'),
+        actions: [
+          TextButton(
+            child: const Text('いいえ'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(
+              'はい',
+            ),
+            onPressed: () async {
+              await FirebaseFirestore.instance
+                  .collection('reports')
+                  .add({'reportedUserId': member.userId});
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

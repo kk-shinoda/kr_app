@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kr_app/logic/query_posts.dart';
 import 'package:kr_app/domain/my_post.dart';
@@ -13,11 +15,11 @@ class BankBookModel extends ChangeNotifier {
   List<int>? amounts;
   int currentIndex = 5;
 
-  BankBookModel() {
+  BankBookModel(BuildContext context) {
     auth = FirebaseAuth.instance;
     userId = FirebaseAuth.instance.currentUser!.uid;
     totalInfo = '';
-    // member = null;
+
     _init();
     notifyListeners();
   }
@@ -35,6 +37,17 @@ class BankBookModel extends ChangeNotifier {
     amounts = myPosts[1] as List<int>;
     totalInfo = _formatTotal(amounts!);
     notifyListeners();
+  }
+
+  Future<void> deletePost(String postId) async {
+    FirebaseFirestore.instance.collection('posts').doc(postId).delete();
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('myposts')
+        .doc(postId)
+        .delete();
+    fetchData();
   }
 
   Future<void> _init() async {

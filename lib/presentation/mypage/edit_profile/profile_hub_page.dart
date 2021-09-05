@@ -127,7 +127,7 @@ class ProfileHubPage extends StatelessWidget {
                                   EditAreaPage(model.prefecture!, model.area!),
                             ),
                           );
-                          print(panda);
+
                           if (panda != null) {
                             model.changeArea(panda);
                           }

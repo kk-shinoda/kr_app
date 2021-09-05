@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kr_app/domain/member.dart';
 
@@ -8,9 +9,11 @@ class MembersModel extends ChangeNotifier {
   List<Member>? members;
   int targetMembersLength = 0;
   int todayMembers = 0;
+  String? loginMemberID;
 
   MembersModel() {
     _fetchData();
+    loginMemberID = FirebaseAuth.instance.currentUser!.uid;
   }
 
   Future<void> _fetchData() async {

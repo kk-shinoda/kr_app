@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/logic/get_tabbar_month.dart';
 import 'package:kr_app/presentation/bankbook/bankbook_model.dart';
 import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class BankBookPage extends StatelessWidget {
   static List<String> tabMonths = getTabbarMonth();
   List<Tab> tabs = <Tab>[
@@ -33,7 +33,7 @@ class BankBookPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => BankBookModel(),
+      create: (_) => BankBookModel(context),
       child: Consumer<BankBookModel>(builder: (context, model, child) {
         return DefaultTabController(
           initialIndex: 5,
@@ -91,20 +91,26 @@ class BankBookPage extends StatelessWidget {
                                                         .length <=
                                                     i
                                                 ? Text('')
-                                                : buildBankList(
+                                                : _buildBankList(
                                                     model
-                                                        .posts![tabController
-                                                            .index][i]
+                                                        .posts![tabController.index]
+                                                            [i]
                                                         .postDate
                                                         .toString(),
                                                     model
-                                                        .posts![tabController
-                                                            .index][i]
+                                                        .posts![tabController.index]
+                                                            [i]
                                                         .amount!,
                                                     model
-                                                        .posts![tabController
-                                                            .index][i]
-                                                        .comment!),
+                                                        .posts![tabController.index]
+                                                            [i]
+                                                        .comment!,
+                                                    context,
+                                                    model,
+                                                    model
+                                                        .posts![tabController.index]
+                                                            [i]
+                                                        .postId!),
                                             itemCount: model
                                                 .posts![tabController.index]
                                                 .length,
@@ -137,6 +143,95 @@ class BankBookPage extends StatelessWidget {
           }),
         );
       }),
+    );
+  }
+
+  Widget _buildBankList(String postDate, int amount, String comment,
+      BuildContext context, BankBookModel model, String postId) {
+    final formatterE = NumberFormat("##0.0#");
+    final formatterG = NumberFormat("###");
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+      child: Card(
+        child: comment == ""
+            ? InkWell(
+                onLongPress: () {
+                  _showDialog(context, 'この投稿を削除しますか？', postId, model);
+                },
+                child: ListTile(
+                  trailing: Icon(
+                    Icons.expand_more,
+                    color: Colors.amber.withAlpha(0),
+                  ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(formatDate(postDate)),
+                      Text(formatterG.format(amount).toString() + "グラム"),
+                      Text(formatterE.format((amount * 0.03)).toString() + "円"),
+                    ],
+                  ),
+                ),
+              )
+            : InkWell(
+                onLongPress: () {
+                  _showDialog(context, 'この投稿を削除しますか？', postId, model);
+                },
+                child: ExpansionTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(formatDate(postDate)),
+                      Text(formatterG.format(amount).toString() + "グラム"),
+                      Text(formatterE.format((amount * 0.03)).toString() + "円"),
+                    ],
+                  ),
+                  children: [
+                    ListTile(
+                      title: Text(comment),
+                    )
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
+
+  String formatDate(String postDate) {
+    return postDate.substring(0, 4) +
+        "年" +
+        postDate.substring(4, 6) +
+        "月" +
+        postDate.substring(6, 8) +
+        "日";
+  }
+
+  Future _showDialog(BuildContext context, String title, String postId,
+      BankBookModel model) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          actions: [
+            TextButton(
+              child: const Text('いいえ'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                'はい',
+              ),
+              onPressed: () async {
+                model.deletePost(postId);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

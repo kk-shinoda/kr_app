@@ -3,6 +3,7 @@ import 'package:kr_app/common/constants.dart';
 import 'package:kr_app/domain/area.dart';
 
 import 'package:kr_app/domain/prefecture.dart';
+import 'package:kr_app/presentation/mypage/about_kr/about_page.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -145,7 +146,13 @@ class MyPagePage extends StatelessWidget {
                                           }
                                         }),
                                         _menuItem('キエーロについて', Icon(Icons.help),
-                                            () => _launchURL()),
+                                            () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return AboutPage();
+                                          }));
+                                        }),
                                         _menuItem('お問い合わせ', Icon(Icons.mail),
                                             () {
                                           Navigator.of(context).push(
@@ -188,18 +195,6 @@ Widget _menuItem(String title, Icon icon, Function func) {
       }, // 長押し
     ),
   );
-}
-
-void _launchURL() async {
-  final _url = 'http://www.kiero.jp';
-
-  print('hero');
-  if (await canLaunch(_url)) {
-    await launch(_url);
-  } else {
-    print('cant');
-    throw 'Could not launch $_url';
-  }
 }
 
 void _logout(BuildContext context, MyPageModel model) {

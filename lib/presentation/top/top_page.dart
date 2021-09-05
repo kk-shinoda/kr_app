@@ -18,6 +18,7 @@ class TopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: ChangeNotifierProvider<TopModel>(
         create: (_) => TopModel(),
         child: Consumer<TopModel>(

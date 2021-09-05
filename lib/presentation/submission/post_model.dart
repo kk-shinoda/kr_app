@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kr_app/logic/has_posted_areas.dart';
+import 'package:kr_app/logic/make_post_id.dart';
 
 class PostModel with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -68,7 +69,8 @@ class PostModel with ChangeNotifier {
           .add({'area': postArea, 'prefecture': postUser!['prefecture']});
     }
 
-    await FirebaseFirestore.instance.collection('posts').add(
+    String postId = makePostId(28);
+    await FirebaseFirestore.instance.collection('posts').doc(postId).set(
       {
         'userId': userId,
         'amount': amount,
@@ -92,8 +94,10 @@ class PostModel with ChangeNotifier {
         .collection('users')
         .doc(userId)
         .collection('myposts')
-        .add(
+        .doc(postId)
+        .set(
       {
+        'postId': postId,
         'amount': amount,
         'post_date': postDate,
         'comment': comment,

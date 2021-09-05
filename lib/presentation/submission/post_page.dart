@@ -15,6 +15,7 @@ class PostPage extends StatelessWidget {
         }
       },
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
             title: Text('投入'),
@@ -26,7 +27,7 @@ class PostPage extends StatelessWidget {
                     _showDialog(context,
                         'このアプリは、生ごみを自家処理した量と、それにより、不要になった税金（30円/㎏で換算）を記録することを目的としています');
                   },
-                  icon: Icon(Icons.help))
+                  icon: Icon(Icons.help, color: Colors.lime.shade100))
             ],
           ),
           backgroundColor: Colors.orange.shade50,
@@ -42,7 +43,7 @@ class PostPage extends StatelessWidget {
                   return Center(
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 700),
-                      width: 300,
+                      width: 350,
                       height: model.canComment ? 340 : 260,
                       margin: EdgeInsets.all(36.0),
                       decoration: BoxDecoration(
@@ -56,7 +57,7 @@ class PostPage extends StatelessWidget {
                             children: <Widget>[
                               SizedBox(height: 15),
                               Container(
-                                width: 200,
+                                width: 220,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

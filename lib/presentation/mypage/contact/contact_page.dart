@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kr_app/common/constants.dart';
+import 'package:kr_app/common/secret_info.dart';
 
 class ContactPage extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class ContactPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Text(
-              '改善してほしいところや追加してほしい機能などございましたら以下のアドレスまでメールを送信してください。\n\nexample.test.com',
+              '改善してほしいところや追加してほしい機能などございましたら以下のアドレスまでメールを送信してください。\n\n$contactMail',
               style: TextStyle(fontSize: 18),
             ),
           ),

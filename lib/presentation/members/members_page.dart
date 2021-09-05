@@ -96,7 +96,7 @@ class MembersPage extends StatelessWidget {
                                   children: [
                                     Hero(
                                       child: _showIconImage(context, index,
-                                          model.members![index]),
+                                          model.members![index], model),
                                       tag: 'tag' + index.toString(),
                                     ),
                                     AutoSizeText(
@@ -112,9 +112,11 @@ class MembersPage extends StatelessWidget {
     );
   }
 
-  Widget _showIconImage(BuildContext context, int index, Member member) {
+  Widget _showIconImage(
+      BuildContext context, int index, Member member, MembersModel model) {
     return GestureDetector(
-        onTap: () => _gotoDetailsPage(context, index, member),
+        onTap: () => _gotoDetailsPage(
+            context, index, member, member.userId != model.loginMemberID),
         child: ClipOval(
             child: member.imageURL != ""
                 ? Image.network(
@@ -131,10 +133,11 @@ class MembersPage extends StatelessWidget {
                   )));
   }
 
-  void _gotoDetailsPage(BuildContext context, int index, Member member) {
+  void _gotoDetailsPage(
+      BuildContext context, int index, Member member, bool isOthers) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (BuildContext context) {
-        return MemberDetailPage(index, member);
+        return MemberDetailPage(index, member, isOthers);
       }),
     );
   }
