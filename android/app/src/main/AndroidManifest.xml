@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kr_app">
+    package="com.note.kr_app">
     <queries>
     <!-- If your app opens https URLs -->
         <intent>
@@ -17,7 +17,7 @@
             <data android:mimeType="*/*" />
         </intent>
     </queries>
-   <application
+    <application
         android:label="キエーロ"
         android:icon="@mipmap/ic_launcher">
         android:requestLegacyExternalStorage="true"

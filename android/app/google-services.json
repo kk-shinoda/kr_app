@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:332919018095:android:6aa12c459db92c6416b39a",
         "android_client_info": {
-          "package_name": "com.example.kr_app"
+          "package_name": "com.note.kr_app"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "332919018095-8ivaf4306k2viubeueb49sf83n319mbc.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.krApp"
+                "bundle_id": "com.note.kr-app"
               }
             }
           ]

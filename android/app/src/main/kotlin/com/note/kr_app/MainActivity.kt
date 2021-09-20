@@ -1,4 +1,4 @@
-package com.example.kr_app
+package com.note.kr_app
 
 import io.flutter.embedding.android.FlutterActivity
 
